@@ -39,27 +39,148 @@
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
 
+    let filteredInventors = inventors.filter((inventor) => inventor.year >= 1500 && inventor.year < 1600);
+    console.table(filteredInventors);
+
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+
+    const firstLast = inventors.map(inventor => ({
+      firstName: inventor.first,
+      lastName: inventor.last
+    }));
+
+    console.table(firstLast);
+
+    const fullNames = inventors.map(inventor => `${inventor.first} ${inventor.last}`);
+    console.table(fullNames);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
 
+    // const older = (a, b) => (a.year > b.year ? -1 : 0);
+    // console.log(inventors.sort(older));
+
+    // const ordered = inventors.sort(function(a, b) {
+    //   return a.year > b.year ? -1 : 0;
+    // });
+
+    const ordered = inventors.sort((a,b) => a.year > b.year ? 1 : -1);
+
+    console.table(ordered);
+
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
 
+    // console.log(inventors.reduce(livedYears));
+    const livedSum = inventors.reduce((accumulator, currentValue) => accumulator + (currentValue.passed - currentValue.year),
+      0,
+    );
+
+    console.log("All inventors together lived in total " + livedSum + " years.");
+
     // 5. Sort the inventors by years lived
+    let newInventors = [];
+
+    inventors.forEach((inventor) => {
+      let livedYears = inventor.passed - inventor.year;
+      // inventors[inventor].push(livedYears);
+      // console.log({...inventor, lived: livedYears});
+      newInventors.push({...inventor, lived: livedYears});
+      // console.log(inventor.first + " " + inventor.last + ": " + livedYears);
+    });
+
+    const livedLonger = (a, b) => ((a.passed - a.year) > (b.passed - b.year) ? -1 : 0);
+    console.log(inventors.sort(livedLonger));
+
+    const livedSort = (a, b) => (a.lived > b.lived ? -1 : 0);
+    console.log(newInventors.sort(livedSort));
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+    /*
+    const category = document.querySelector('.mw-category');
+    const links = category.querySelectorAll('a');
+    links.forEach((link) => {console.log(link.innerText)});
+
+    const de = links.map(link => link.textContent);
+    // Uncaught TypeError: links.map is not a function
+
+    const linksArray = [...category.querySelectorAll('a')]; // Spread notation
+    const deMap = linksArray
+                    .map(link => link.textContent)
+                    .filter(streetName => streetName.includes('de'));
+
+    */
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    
+    let sortedPeople = [];
+
+    people.forEach((person) => {
+      firstName = person.split(', ')[1];
+      lastName = person.split(', ')[0];
+      // console.log(firstName, lastName);
+      sortedPeople.push({firstName: firstName, lastName: lastName});
+      // sortedPeople.push(person.split())
+    })
+
+    sortedPeople.sort((a, b) => a.lastName.localeCompare(b.lastName));
+    console.table(sortedPeople);
+
+    const alpha = people.sort((lastOne, nextOne) => {
+      const [aLast, aFirst] = lastOne.split(', ');
+      const [bLast, bFirst] = nextOne.split(', ');
+      return aLast > bLast ? 1 : -1;
+    });
+
+    console.log(alpha);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+
+    const transportation = data.reduce(function(object, item) {
+      if(!object[item]) {
+        object[item] = 0;
+      }
+      object[item]++;
+      return object;
+    }, {})
+
+    console.log(transportation);
+
+    // function sumInstances(newInput) {
+    //   for (i = 0; i < summedData.length; i++) {
+    //     if (summedData === newInput) {
+    //       // summedData[newInput]
+    //       console.log('Already present!');
+    //     }
+    //     else {
+    //       summedData.push({data: newInput, count: 1});
+    //     }
+    //   }
+    //   return summedData;
+    // }
+
+    // test = [];
+
+    // data.forEach((element) => {
+    //   // sumInstances(element);
+    //   test.push(element);
+    //   console.log(test);
+    //   for (i = 0; test.length; i++) {
+    //     if (test[i] === element) {
+    //       console.log('Already present!');
+    //     } else {
+    //       summedData.push({data: element, count: 1});
+    //     }
+    //   }
+    // })
+
+    // console.log(summedData)
 
   </script>
 </body>
