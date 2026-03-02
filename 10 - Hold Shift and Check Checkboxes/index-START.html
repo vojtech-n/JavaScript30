@@ -97,6 +97,39 @@
   </div>
 
 <script>
+  checkBoxes = document.querySelectorAll(".item input");
+  // console.log(checkBoxes);
+  // console.log(checkBoxes.item(2))
+  let clicked = [];
+  let shiftDown = false;
+
+  checkBoxes.forEach(checkBox => {
+    checkBox.onclick = function() {
+      console.log([...checkBoxes].indexOf(checkBox));
+      if (clicked.length >= 1 && shiftDown) {
+        if (clicked[0] < [...checkBoxes].indexOf(checkBox)) {
+          for (let i = clicked[0]; i <= [...checkBoxes].indexOf(checkBox); i++) {
+            checkBoxes.item(i).checked = true;
+          }
+        } else {
+          for (let i = clicked[0]; i >= [...checkBoxes].indexOf(checkBox); i--) {
+            checkBoxes.item(i).checked = true;
+          }
+        }
+      }
+      clicked.push([...checkBoxes].indexOf(checkBox));
+      console.log(checkBox.checked)
+    }
+  })
+
+  document.addEventListener("keydown", (e) => { 
+    if (e.keyCode == 16) { 
+      shiftDown = true; 
+    } 
+  });
+
+  document.addEventListener("keyup", (e) => { if (e.keyCode == 16) { shiftDown = false } });
+  
 </script>
 </body>
 </html>
